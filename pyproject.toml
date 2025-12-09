@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zotero-voice-assistant"
+version = "0.1.0"
+description = "GUI-based Zotero assistant controlled via OpenAI audio models."
+authors = [{name = "Your Name"}]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "openai>=1.57.0",
+    "pyzotero>=1.5.8",
+    "python-dotenv>=1.0.1",
+    "sounddevice>=0.5.0",
+    "soundfile>=0.12.1",
+    "numpy>=2.1",
+    "dotenv>=0.9.9",
+    "pydantic>=2.9",
+]
+
+[project.scripts]
+zva = "zotero_voice_assistant.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "mypy>=1.11",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

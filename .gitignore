@@ -1,0 +1,6 @@
+.env
+*dist/
+pyzotero_examples/
+.venv/
+__pycache__/
+zotero_voice_assistant.egg-info/
