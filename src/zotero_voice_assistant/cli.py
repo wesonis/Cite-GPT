@@ -9,8 +9,17 @@ from .zotero_client import ZoteroClient
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Utility commands for Zotero Voice Assistant")
-    subparsers = parser.add_subparsers(dest="command", required=True)
+    parser = argparse.ArgumentParser(
+        prog="zva",
+        description="Zotero Voice Assistant (zva) — utility commands",
+        epilog="Run 'zva run' or 'zva --run' to start the GUI",
+    )
+    subparsers = parser.add_subparsers(dest="command", required=False)
+    parser.add_argument(
+        "--run",
+        action="store_true",
+        help="Start the GUI (same as 'zva run')",
+    )
 
     search = subparsers.add_parser(
         "search",
@@ -30,6 +39,9 @@ def build_parser() -> argparse.ArgumentParser:
         "audio-devices",
         help="List available audio devices and their indexes",
     )
+    # add a small 'run' subcommand for consistency
+    subparsers.add_parser("run", help="Start the GUI")
+
     devices.add_argument(
         "--all",
         action="store_true",
@@ -89,6 +101,11 @@ def main(argv: Optional[List[str]] = None) -> None:
     parser = build_parser()
     args = parser.parse_args(argv)
 
+    should_run_gui = getattr(args, "run", False) or args.command == "run" or args.command is None
+    if should_run_gui:
+        handle_run(args)
+        return
+
     if args.command == "search":
         handle_search(args)
     elif args.command == "audio-devices":
@@ -119,6 +136,16 @@ def handle_audio_devices(args: argparse.Namespace) -> None:
             role.append(f"out:{outputs}")
         role_text = ", ".join(role) or "n/a"
         print(f"[{idx:>2}] {device.get('name', 'Unknown')} ({role_text})")
+
+
+def handle_run(args: argparse.Namespace) -> None:
+    try:
+        # import lazily so CLI remains lightweight
+        from . import main as app_main
+
+        app_main.main()
+    except Exception as exc:  # pragma: no cover - bridge to GUI
+        raise SystemExit(f"Failed to start GUI: {exc}") from exc
 
 
 if __name__ == "__main__":

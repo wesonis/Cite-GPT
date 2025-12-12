@@ -1,1 +1,1 @@
-"""Voice-enabled Zotero assistant scaffold."""
+"""Voice-enabled Zotero assistant"""
