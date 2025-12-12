@@ -1,10 +1,14 @@
 # Cite-GPT: Talk To Your Zotero Library
 
-Foundational Python project that wires together a desktop toggle UI, OpenAI audio transcription, and PyZotero search hooks. The current implementation provides ready-to-extend service classes and a Tkinter window with an on/off switch so you can begin iterating quickly.
+Quick and dirty project that uses OpenAI API for audio transcription and NER, piped to your personal Zotero Library.
+
+Inspired by my MS advisor lamenting how long it takes to find saved articles and wishing that he could tell his computer to "find that paper by [name] from 2012 or so". 
+
+
 
 ## Features
 - Tkinter window with an on/off switch, rolling log output, live transcript preview, and a mic activity meter
-- Natural-language intent parsing backed by an OpenAI text model that maps phrases like "find Zimmerman papers" to structured Zotero filters
+- Natural-language transcription and intent parsing backed by an OpenAI or Gemini API
 - Interactive item picker so you can choose which Zotero record to open when several match
 - Controller skeleton that links audio capture, OpenAI transcription (forced to English), and Zotero queries
 - Microphone capture powered by `sounddevice`/`soundfile`, configurable via env vars and observable via the GUI meter
@@ -18,24 +22,21 @@ Foundational Python project that wires together a desktop toggle UI, OpenAI audi
 - Zotero API key plus your library id/type (user or group)
 
 ## Getting Started
-1. Create a virtual environment and install dependencies:
-   ```pwsh
-   cd zotero_voice_assistant
-   python -m venv .venv
-   .venv\Scripts\Activate.ps1
-   pip install -e .
-   ```
-2. Copy the example environment file and populate credentials:
-   ```pwsh
-   Copy-Item .env.example .env
-   ```
-3. Launch the GUI:
-   ```pwsh
-   python -m zotero_voice_assistant.main
-   ```
+1. In a powershell or bash terminal, `git clone https://github.com/wesonis/Cite-GPT.git`
+2. Download and install uv [download link](https://docs.astral.sh/uv/#installation)
+3. `cd` into project directory and then `uv venv` & `uv sync`
+4. Activate the venv:
+      pwsh: `.venv/Scripts/Activate.ps1`
+      bash/zsh: `source .venv/bin/activate`
+5. `uv pip install -e .`
+6. `cp .env.example .env`, and fill the .env file with your personal API details (or securely set private environment variables however you see fit)          - *scroll to "configuring Zotero Access" section for more details*
+   - *Note*: with the project installed, you can determine your audio devices with `zva audio-devices`. Usually you'll want maximum 2 channels.
+7. Run the command with `zva run`. You should see a tkinter GUI window pop up. You're all set!
+
+<img width="581" height="487" alt="zva_smaller" src="https://github.com/user-attachments/assets/2437875c-ebe1-44f6-80a1-cd8c8cb88b5e" />
 
 ## CLI Zotero Search
-You can exercise the Zotero portion without recording audio via the bundled CLI:
+You can check that the Zotero portion works without recording audio via the bundled CLI:
 
 ```pwsh
 zva search --author "smith" --title quantum --year 2022 --limit 10
