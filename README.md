@@ -29,10 +29,10 @@ Inspired by my MS advisor lamenting how long it takes to find saved articles and
       pwsh: `.venv/Scripts/Activate.ps1`
       bash/zsh: `source .venv/bin/activate`
 5. `uv pip install -e .`
-6. `cp .env.example .env`, and fill the .env file with your personal API details (or securely set private environment variables however you see fit) *scroll to "configuring Zotero Access" section for details*
-   *Note*: with the project installed, you can determine your audio devices with `zva audio-devices`. Usually you'll want maximum 2 channels.
-8. Run the command with `zva run`
-9. 
+6. `cp .env.example .env`, and fill the .env file with your personal API details (or securely set private environment variables however you see fit)          - *scroll to "configuring Zotero Access" section for more details*
+   - *Note*: with the project installed, you can determine your audio devices with `zva audio-devices`. Usually you'll want maximum 2 channels.
+7. Run the command with `zva run`
+
 ## CLI Zotero Search
 You can check that the Zotero portion works without recording audio via the bundled CLI:
 
